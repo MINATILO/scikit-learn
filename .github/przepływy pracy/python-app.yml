@@ -1,0 +1,57 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python application
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with pytest
+      run: |
+        pytest
+- nazwa: Konfiguracja środowiska Node.js
+  używa: actions/setup-node@v2.3.0
+  z:
+    # Ustaw zawsze-auth w npmrc
+    Always-auth: # opcjonalne, domyślnie false
+    # Specyfikacja wersji używanej wersji. Przykłady: 12.x, 10.15,1, >=10,15,0
+    wersja węzła: # opcjonalnie
+    # Docelowa architektura, z której ma korzystać Node. Przykłady: x86, x64. Domyślnie użyje architektury systemu.
+    architektura: # opcjonalnie
+    # Ustaw tę opcję, jeśli chcesz, aby akcja sprawdzała najnowszą dostępną wersję, która spełnia specyfikację wersji
+    sprawdź najnowsze: # opcjonalnie
+    # Rejestr opcjonalny do skonfigurowania uwierzytelniania. Ustawi rejestr w pliku .npmrc i .yarnrc na poziomie projektu oraz skonfiguruje autoryzację do odczytu z env.NODE_AUTH_TOKEN
+    adres URL rejestru: # opcjonalny
+    # Opcjonalny zakres uwierzytelniania względem rejestrów objętych zakresem
+    zakres: # opcjonalny
+    # Używany do ściągania dystrybucji węzłów z wersji węzłów. Ponieważ istnieje wartość domyślna, zwykle nie jest ona dostarczana przez użytkownika.
+    token: # opcjonalny, domyślnie ${{ github.token }}
+    # Używane do określenia menedżera pakietów do buforowania w domyślnym katalogu. Obsługiwane wartości: npm, przędza, pnpm
+    pamięć podręczna: # opcjonalnie
+    # Przestarzałe. Zamiast tego użyj wersji węzła. Nie będzie wspierany po 1 października 2019 r.
+    wersja: # opcjonalna
